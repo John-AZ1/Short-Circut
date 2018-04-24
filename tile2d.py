@@ -4,7 +4,7 @@ class tile2d:
         self.id = id
         self.x = x
         self.y = y
-        self.sRadi = []
+        self.containedSRadi = []
         self.obj = obj
         # Display Variables
         self.point = point
@@ -13,14 +13,18 @@ class tile2d:
     def terrain(self):
         if self.obj.serial is "Empty":
             lT = ""
-            for i in self.sRadi: lT+="{} "
+            for i in self.containedSRadi: lT+="{} "
             lT = "{a} "+lT
-            return(lT.format(a=self.point, *self.sRadi))
+            return(lT.format(a=self.point, *self.containedSRadi))
         else:
             lT = ""
-            for i in self.sRadi: lT+="{} "
+            for i in self.containedSRadi: lT+="{} "
             lT = "{a} {b}{c} "+lT
-            return(lT.format(a=self.point, b=self.obj.serial, c=self.obj.id, *self.sRadi))
-    def updateSRadi(self, sid):
-        self.sRadi = [x for x in self.sRadi if x != "S%d"%sid]
-        self.sRadi.append("S%d"%sid)
+            return(lT.format(a=self.point, b=self.obj.serial, c=self.obj.id, *self.containedSRadi))
+    def updateSRadi(self, sid, purge=False):
+        if purge is True:
+            self.containedSRadi = [x for x in self.containedSRadi if x != "S%d"%sid]
+        else:
+            self.containedSRadi = [x for x in self.containedSRadi if x != "S%d"%sid]
+            self.containedSRadi.append("S%d"%sid)
+        # print("tile2d: sRadi updated")
